@@ -15,11 +15,11 @@ local UpdateFOV = function ()
         return Circle
     end
 
-    if Tonka then
-        Circle.Visible = Tonka.Fov["Visible"]
-        Circle.Radius = Tonka.Fov.Radius * 2.9461
+    if RobbyWare then
+        Circle.Visible = RobbyWare.Fov["Visible"]
+        Circle.Radius = RobbyWare.Fov.Radius * 2.9461
     else
-        return Tonka
+        return RobbyWare
     end
     
     Circle.Position = Vector2.new(Mouse.X, Mouse.Y + (game:GetService("GuiService"):GetGuiInset().Y))
@@ -28,11 +28,11 @@ end
 
 RS.Heartbeat:Connect(UpdateFOV)
 
-Mouse.KeyDown:Connect(function(TonkaSilentAimEnable)
-	if TonkaSilentAimEnable.KeyCode ~= Tonka.TonkaSilent.Keybind then
+Mouse.KeyDown:Connect(function(RobbyWareSilentAimEnable)
+	if RobbyWareSilentAimEnable.KeyCode ~= RobbyWare.RobbyWareSilent.Keybind then
 		return
-	elseif TonkaSilentAimEnable.KeyCode == Tonka.TonkaSilent.Keybind then
-		Tonka.TonkaSilent.Enabled = not Tonka.TonkaSilent.Enabled
+	elseif RobbyWareSilentAimEnable.KeyCode == RobbyWare.RobbyWareSilent.Keybind then
+		RobbyWare.RobbyWareSilent.Enabled = not RobbyWare.RobbyWareSilent.Enabled
 	end
 end)
 
@@ -80,7 +80,7 @@ local GetClosestBodyPart = function (character)
     if (character and character:GetChildren()) then
         for _,  x in next, character:GetChildren() do
             if FilterObjs(x) and IsOnScreen(x) then
-                local Distance = ((WTS(x) - Vector2.new(Mouse.X, Mouse.Y))/Tonka.TonkaSilent.DistanceDivided).Magnitude
+                local Distance = ((WTS(x) - Vector2.new(Mouse.X, Mouse.Y))/RobbyWare.RobbyWareSilent.DistanceDivided).Magnitude
                 if (Circle.Radius > Distance and Distance < ClosestDistance) then
                     ClosestDistance = Distance
                     BodyPart = x
@@ -92,40 +92,40 @@ local GetClosestBodyPart = function (character)
 end
 
 local Prey
-local PartToUse = Tonka.TonkaSilent.Part
+local PartToUse = RobbyWare.RobbyWareSilent.Part
 
 task.spawn(function ()
     while task.wait() do
         if Prey then
-            if Tonka.TonkaSilent.Enabled and Tonka.TonkaSilent.ClosestPart == true then
+            if RobbyWare.RobbyWareSilent.Enabled and RobbyWare.RobbyWareSilent.ClosestPart == true then
                 PartToUse = tostring(GetClosestBodyPart(Prey.Character))
             end
-            if Tonka.TonkaSilent.UnlockOnDeath == true then
+            if RobbyWare.RobbyWareSilent.UnlockOnDeath == true then
                 if Prey.Character.Humanoid.Health < 2 then
                     Prey = nil
                 end
             end
-            if Tonka.TonkaSilent.UnlockOnYourDeath == true then
+            if RobbyWare.RobbyWareSilent.UnlockOnYourDeath == true then
                 if Client.Character.Humanoid.Health < 2 then
                     Prey = nil
                 end
             end
-			if Tonka.Resolver.Enabled[1] == true then
+			if RobbyWare.Resolver.Enabled[1] == true then
 				local playertoresolve = Prey.Character.HumanoidRootPart
-				if playertoresolve.Velocity.X > Tonka.Resolver.Enabled[2] or playertoresolve.Velocity.X < Tonka.Resolver.Enabled[3] or playertoresolve.Velocity.Y > Tonka.Resolver.Enabled[2] or playertoresolve.Velocity.Y < Tonka.Resolver.Enabled[3] or playertoresolve.Velocity.Z > Tonka.Resolver.Enabled[2] or playertoresolve.Velocity.Z < Tonka.Resolver.Enabled[3] then
+				if playertoresolve.Velocity.X > RobbyWare.Resolver.Enabled[2] or playertoresolve.Velocity.X < RobbyWare.Resolver.Enabled[3] or playertoresolve.Velocity.Y > RobbyWare.Resolver.Enabled[2] or playertoresolve.Velocity.Y < RobbyWare.Resolver.Enabled[3] or playertoresolve.Velocity.Z > RobbyWare.Resolver.Enabled[2] or playertoresolve.Velocity.Z < RobbyWare.Resolver.Enabled[3] then
 					playertoresolve.Velocity = Vector3.new(0, 0, 0)
 				end
 			end
-			if Tonka.TonkaSilent.AntiGroundShots then
+			if RobbyWare.RobbyWareSilent.AntiGroundShots then
 				pcall(function()
-                    local TargetVelv5 = Prey.Character[Tonka.TonkaSilent.Part]
+                    local TargetVelv5 = Prey.Character[RobbyWare.RobbyWareSilent.Part]
                     TargetVelv5.Velocity = Vector3.new(TargetVelv5.Velocity.X, (TargetVelv5.Velocity.Y * 0.5), TargetVelv5.Velocity.Z)
                     TargetVelv5.AssemblyLinearVelocity = Vector3.new(TargetVelv5.Velocity.X, (TargetVelv5.Velocity.Y * 0.5), TargetVelv5.Velocity.Z)
                 end)
 			end
-			if Tonka.Resolver.DisableOnAnti.Enabled == true and Prey.Character and Prey.Character:FindFirstChild(Sub.AIM.AIM_PART) then
+			if RobbyWare.Resolver.DisableOnAnti.Enabled == true and Prey.Character and Prey.Character:FindFirstChild(Sub.AIM.AIM_PART) then
 				local playertoresolve = Prey.Character.HumanoidRootPart
-				if playertoresolve.Velocity.X > Tonka.Resolver.DisableOnAnti.Max or playertoresolve.Velocity.X < Tonka.Resolver.DisableOnAnti.Min or playertoresolve.Velocity.Y > Tonka.Resolver.DisableOnAnti.Max or playertoresolve.Velocity.Y < Tonka.Resolver.DisableOnAnti.Min or playertoresolve.Velocity.Z > Tonka.Resolver.DisableOnAnti.Max or playertoresolve.Velocity.Z < Tonka.Resolver.DisableOnAnti.Min then
+				if playertoresolve.Velocity.X > RobbyWare.Resolver.DisableOnAnti.Max or playertoresolve.Velocity.X < RobbyWare.Resolver.DisableOnAnti.Min or playertoresolve.Velocity.Y > RobbyWare.Resolver.DisableOnAnti.Max or playertoresolve.Velocity.Y < RobbyWare.Resolver.DisableOnAnti.Min or playertoresolve.Velocity.Z > RobbyWare.Resolver.DisableOnAnti.Max or playertoresolve.Velocity.Z < RobbyWare.Resolver.DisableOnAnti.Min then
 					AimlockTarget = nil
 				end
 			end
@@ -138,13 +138,13 @@ local backupindex = grmt.__index
 setreadonly(grmt, false)
 
 grmt.__index = newcclosure(function(self, v)
-    if (Tonka.TonkaSilent.Enabled and Mouse and tostring(v) == "Hit") then
+    if (RobbyWare.RobbyWareSilent.Enabled and Mouse and tostring(v) == "Hit") then
 
         Prey = ClosestPlrFromMouse()
 
         if Prey then
             local endpoint = game.Players[tostring(Prey)].Character[PartToUse].CFrame + (
-                game.Players[tostring(Prey)].Character[PartToUse].Velocity * Tonka.TonkaSilent.Pred
+                game.Players[tostring(Prey)].Character[PartToUse].Velocity * RobbyWare.RobbyWareSilent.Pred
             )
             return (tostring(v) == "Hit" and endpoint)
         end
